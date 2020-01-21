@@ -1,6 +1,5 @@
 package com.xck.main;
 
-import com.alibaba.fastjson.JSONObject;
 import com.xck.HttpUtils;
 import com.xck.ResultBean;
 import com.xck.dataCenter.SysConstants;
@@ -14,14 +13,17 @@ import org.eclipse.jetty.server.ssl.SslSocketConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Component
 public class JettyServer extends AbstractHandler {
-    private static Logger infoLog = LoggerFactory.getLogger("info");
+    private static final Logger infoLog = LoggerFactory.getLogger("info");
 
     private volatile static boolean isRunning = false;
 
@@ -60,6 +62,7 @@ public class JettyServer extends AbstractHandler {
 
             server = new Server();
             server.setConnectors(new Connector[]{selector});
+            infoLog.info("init server success!!!");
         } catch (Exception e) {
             infoLog.info("init server fail: ", e);
         }
@@ -72,6 +75,7 @@ public class JettyServer extends AbstractHandler {
                 server.setHandler(this);
                 server.start();
                 isRunning = true;
+                infoLog.info("start server...");
             }else{
                 infoLog.info("server is null, start fail");
             }
@@ -80,7 +84,6 @@ public class JettyServer extends AbstractHandler {
         }
     }
 
-    @Override
     public void handle(String s, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result = ResultBean.getServerErrorResult();
         try {
@@ -111,11 +114,5 @@ public class JettyServer extends AbstractHandler {
         infoLog.info("req suc, reqJson=" + json);
 
         return ResultBean.getSucResult();
-    }
-
-    public static void main(String[] args) {
-        JettyServer server = new JettyServer();
-        server.doInit();
-        server.doStart();
     }
 }
