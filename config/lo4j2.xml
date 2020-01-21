@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_HOME">logs</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="info" fileName="${LOG_HOME}/info.log"
+                     filePattern="${LOG_HOME}/info.log.%d{yyyy-MM-dd}" immediateFlush="false">
+            <PatternLayout>
+                <Pattern>%d [%t] %-5p - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="rootLog" fileName="${LOG_HOME}/error.log"
+                     filePattern="${LOG_HOME}/error.log.%d{yyyy-MM-dd}" immediateFlush="false">
+            <PatternLayout>
+                <Pattern>%d [%t] %-5p - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="info" level="info" additivity="false">
+            <AppenderRef ref="info"/>
+        </Logger>
+        <Root level="error" includeLocation="false">
+            <AppenderRef ref="rootLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
