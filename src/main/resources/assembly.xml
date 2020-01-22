@@ -1,0 +1,26 @@
+<assembly>
+    <!--id则是添加到打包文件名的标识符，用来做后缀-->
+    <id>bin</id>
+    <!--formats是assembly插件支持的打包文件格式，有zip、tar、tar.gz、tar.bz2、jar、war-->
+    <formats>
+        <format>dir</format>
+    </formats>
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>true</useProjectArtifact>
+            <!--把项目依赖的所有包都打包输出到lib路径-->
+            <outputDirectory>lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+    <fileSets>
+        <fileSet>
+            <!--源目录的路径-->
+            <directory>src/main/com</directory>
+            <outputDirectory>/bin</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>config</directory>
+            <outputDirectory>/config</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>
